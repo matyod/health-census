@@ -1,17 +1,17 @@
 /* Basic CSS for the navigation bar */
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 nav {
   background-color: #f0f0f0;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
 }
 
 nav ul {
@@ -58,7 +58,7 @@ select {
 
 button {
   padding: 7px 15px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
@@ -73,20 +73,36 @@ h2 {
   margin-top: 30px;
 }
 
-#report,#result {
+#report,
+#result {
   padding: 10px;
   max-width: 400px;
   word-wrap: break-word;
 }
-#result{
-height: 400px;
-width: 500px;
-display: flex;
-align-items: center;
-justify-content: space-around;
-flex-direction: column;
+
+#result {
+  height: 400px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
 }
-#result img{
+
+#result img {
   width: 200px;
   height: 100px;
+}
+
+table,
+tr,
+td,
+th {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th:nth-child(n + 2),
+td:nth-child(n + 2) {
+  text-align: center;
 }
