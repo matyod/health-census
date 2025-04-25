@@ -30,6 +30,8 @@ function addPatient() {
       condition: condition,
     });
 
+    resetForm();
+
     // // Log patients data
     // let index = 0;
     // patients.forEach(patient => {
@@ -50,3 +52,15 @@ function addPatient() {
 }
 
 addPatientButton.addEventListener('click', addPatient);
+
+function resetForm() {
+  nameElement.value = '';
+
+  const selectedGender = document.querySelector('input[name="gender"]:checked');
+  if (selectedGender) {
+    selectedGender.checked = false;
+  }
+
+  age.value = '';
+  condition.value = '';
+}
