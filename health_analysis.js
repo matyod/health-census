@@ -31,6 +31,7 @@ function addPatient() {
     });
 
     resetForm();
+    generateReport();
 
     // // Log patients data
     // let index = 0;
@@ -63,4 +64,86 @@ function resetForm() {
 
   age.value = '';
   condition.value = '';
+}
+
+function generateReport() {
+  const conditionsCount = {
+    Diabetes: 0,
+    Thyroid: 0,
+    'High Blood Pressure': 0,
+  };
+
+  const genderConditionsCount = {
+    Male: {
+      Diabetes: 0,
+      Thyroid: 0,
+      'High Blood Pressure': 0,
+    },
+    Female: {
+      Diabetes: 0,
+      Thyroid: 0,
+      'High Blood Pressure': 0,
+    },
+  }
+
+  const createElementHelper = (type, content) => { 
+    const element = document.createElement(type);
+    element.textContent = content;
+    return element;
+  }
+
+  const reportOuterDiv = document.createElement('div');
+  const reportInnerDiv1 = document.createElement('div');
+  const reportInnerDiv2 = document.createElement('div');
+  const reportInnerDiv3 = document.createElement('div');
+  /* --------- */
+  const patientNumPara = createElementHelper('p', `Number of patients: ${patients.length}`);
+  reportInnerDiv1.appendChild(patientNumPara);
+  reportOuterDiv.appendChild(reportInnerDiv1);
+  /* --------- */
+  const condBreakdownPara = createElementHelper('p', 'Conditions Breakdown:');
+  reportInnerDiv2.appendChild(condBreakdownPara);
+  const condUl = document.createElement('ul');
+  for (const condition in conditionsCount) { 
+    const condLi = createElementHelper('li', `${condition}: ${conditionsCount[condition]}`);
+    condUl.appendChild(condLi);
+  }
+  reportInnerDiv2.appendChild(condUl);
+  reportOuterDiv.appendChild(reportInnerDiv2);
+  /* --------- */
+  const genderBasedPara = createElementHelper('p', 'Gender-Based Conditions:');
+  reportInnerDiv3.appendChild(genderBasedPara);
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  const tbody = document.createElement('tbody');
+  const headerRow = document.createElement('tr');
+  const blankHeaderCell = document.createElement('th')
+  headerRow.appendChild(blankHeaderCell);
+
+  for (const gender in genderConditionsCount) {
+    const genderHeaderCell = createElementHelper('th', gender);
+    headerRow.appendChild(genderHeaderCell);
+  }
+
+  const conditions = Object.keys(genderConditionsCount.Male);
+  console.log(conditions);
+
+  for (const condition of conditions) {
+    const bodyRow = document.createElement('tr');
+    const conditionCell = createElementHelper('td', condition);
+    bodyRow.appendChild(conditionCell);
+
+    for (const gender in genderConditionsCount) {
+      const countCell = createElementHelper('td', genderConditionsCount[gender][condition]);
+      bodyRow.appendChild(countCell);
+    }
+    tbody.appendChild(bodyRow);
+  }
+
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+  table.appendChild(tbody);
+  reportInnerDiv3.appendChild(table);
+  reportOuterDiv.appendChild(reportInnerDiv3);
+  report.appendChild(reportOuterDiv);
 }
