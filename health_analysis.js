@@ -1,4 +1,3 @@
-const btnSearch = document.getElementById('btnSearch');
 const addPatientButton = document.getElementById('addPatient');
 const errorMsg = document.getElementById('errorMsg');
 errorMsg.style.color = 'red';
@@ -161,3 +160,38 @@ function generateReport() {
   reportOuterDiv.appendChild(reportInnerDiv3);
   report.appendChild(reportOuterDiv);
 }
+
+/* ---------------
+  SEARCH FEATURE
+--------------- */
+
+const conditionInput = document.getElementById('conditionInput');
+const btnSearch = document.getElementById('btnSearch');
+const result = document.getElementById('result');
+
+function searchCondition() {
+  const input = conditionInput.value.toLowerCase();
+
+  fetch('./health_analysis.json')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      const condition = data.conditions.find(item => item.name.toLowerCase() === input);
+
+      if (!condition) { 
+        result.innerHTML = `<p>Condition not found</p>`;
+      } else { 
+        result.innerHTML = "";
+        result.innerHTML += `<h2>${condition.name}</h2>`;
+        result.innerHTML += `<img src="${condition.imagesrc}" style="width: 10rem; height: 10rem; object-position: 50% 50%;">`;
+        result.innerHTML += `<p><strong>Symptoms:</strong> ${condition.symptoms.join(', ')}</p>`;
+        result.innerHTML += `<p><strong>Prevention:</strong> ${condition.prevention.join(', ')}</p>`;
+        result.innerHTML += `<p><strong>Treatment:</strong> ${condition.treatment}</p>`;
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+btnSearch.addEventListener('click', searchCondition);
