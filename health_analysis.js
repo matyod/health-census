@@ -67,6 +67,8 @@ function resetForm() {
 }
 
 function generateReport() {
+  report.textContent = "";
+
   const conditionsCount = {
     Diabetes: 0,
     Thyroid: 0,
@@ -86,7 +88,13 @@ function generateReport() {
     },
   }
 
-  const createElementHelper = (type, content) => { 
+  // Aligning conditionsCount and genderConditionsCount with patients
+  for (const patient of patients) {
+    conditionsCount[patient.condition]++;
+    genderConditionsCount[patient.gender][patient.condition]++;
+  }
+
+  const createElementHelper = (type, content) => {
     const element = document.createElement(type);
     element.textContent = content;
     return element;
@@ -96,21 +104,27 @@ function generateReport() {
   const reportInnerDiv1 = document.createElement('div');
   const reportInnerDiv2 = document.createElement('div');
   const reportInnerDiv3 = document.createElement('div');
+
   /* --------- */
+
   const patientNumPara = createElementHelper('p', `Number of patients: ${patients.length}`);
   reportInnerDiv1.appendChild(patientNumPara);
   reportOuterDiv.appendChild(reportInnerDiv1);
+
   /* --------- */
+
   const condBreakdownPara = createElementHelper('p', 'Conditions Breakdown:');
   reportInnerDiv2.appendChild(condBreakdownPara);
   const condUl = document.createElement('ul');
-  for (const condition in conditionsCount) { 
+  for (const condition in conditionsCount) {
     const condLi = createElementHelper('li', `${condition}: ${conditionsCount[condition]}`);
     condUl.appendChild(condLi);
   }
   reportInnerDiv2.appendChild(condUl);
   reportOuterDiv.appendChild(reportInnerDiv2);
+
   /* --------- */
+
   const genderBasedPara = createElementHelper('p', 'Gender-Based Conditions:');
   reportInnerDiv3.appendChild(genderBasedPara);
   const table = document.createElement('table');
